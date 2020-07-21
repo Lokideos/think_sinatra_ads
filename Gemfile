@@ -22,6 +22,9 @@ gem 'dry-validation', '~> 1.5.0'
 gem 'activesupport', '~> 6.0.0', require: false
 gem 'fast_jsonapi', '~> 1.5'
 
+gem 'faraday', '~> 1.0.0'
+gem 'faraday_middleware', '~> 1.0.0'
+
 group :test do
   gem 'rspec', '~> 3.9.0'
   gem 'factory_bot', '~> 5.2.0'
