@@ -79,6 +79,8 @@ RSpec.describe AdRoutes, type: :routes do
     end
 
     context 'valid parameters' do
+      let(:geocoder_client) { double('Geocoder client') }
+      let(:coordinates) { [10.0, 10.0] }
       let(:ad_params) do
         {
           title: 'Ad title',
@@ -88,6 +90,11 @@ RSpec.describe AdRoutes, type: :routes do
       end
 
       let(:last_ad) { Ad.last }
+
+      before do
+        allow(GeocodeService::Client).to receive(:new).and_return(geocoder_client)
+        allow(geocoder_client).to receive(:geocode).and_return(coordinates)
+      end
 
       it 'creates a new ad' do
         expect { post '/v1', ad: ad_params }
@@ -103,6 +110,13 @@ RSpec.describe AdRoutes, type: :routes do
           'id' => last_ad.id.to_s,
           'type' => 'ad'
         )
+      end
+
+      it 'assigns lat and lon to an ad' do
+        post '/v1', ad: ad_params
+
+        expect(last_ad.lon).to eq coordinates[0]
+        expect(last_ad.lat).to eq coordinates[1]
       end
     end
   end

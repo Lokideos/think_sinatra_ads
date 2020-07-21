@@ -22,6 +22,8 @@ class AdRoutes < Application
       )
 
       if result.success?
+        Ads::GeocodingService.call(result.ad.values)
+        result.ad.reload
         serializer = AdSerializer.new(result.ad)
 
         status 201
