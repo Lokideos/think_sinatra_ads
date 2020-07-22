@@ -3,5 +3,7 @@ db:
   host: localhost
   user: postgres
   password: notsecure
+rabbitmq:
+  consumer_pool: 10
 pagination:
   page_size: 10

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ads
   class CreateService
     prepend BasicService
@@ -9,6 +11,7 @@ module Ads
     end
 
     option :user_id
+    option :geocoder_service, default: proc { GeocoderService::Client.new }
 
     attr_reader :ad
 
@@ -18,6 +21,7 @@ module Ads
 
       if @ad.valid?
         @ad.save
+        @geocoder_service.geocode_later(@ad)
       else
         fail!(@ad.errors)
       end
