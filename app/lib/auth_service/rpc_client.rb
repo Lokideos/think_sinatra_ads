@@ -17,10 +17,11 @@ module AuthService
     end
 
     def start
-      @reply_queue.subscribe do |_delivery_info, properties, payload|
+      @reply_queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
         if properties[:correlation_id] == @correlation_id
           @user_id = JSON(payload)['user_id']
           @lock.synchronize { @condition.signal }
+          @reply_queue.channel.ack(delivery_info.delivery_tag)
         end
       end
 
@@ -38,7 +39,7 @@ module AuthService
 
     def create_reply_queue
       channel = RabbitMq.channel
-      channel.queue('amq.rabbitmq.reply-to')
+      channel.queue('auth-ads-reply', durable: true)
     end
 
     def publish(payload, opts = {})
