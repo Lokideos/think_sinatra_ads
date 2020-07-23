@@ -11,7 +11,7 @@ module Ads
     end
 
     option :user_id
-    option :geocoder_service, default: proc { GeocoderService::Client.new }
+    option :geocoder_service, default: proc { GeocoderService::HttpClient.new }
 
     attr_reader :ad
 

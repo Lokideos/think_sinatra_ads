@@ -31,5 +31,23 @@ class AdRoutes < Application
         error_response result.ad
       end
     end
+
+    namespace '/update_coordinates' do
+      post do
+        ad_params = validate_with!(AdCoordinatesParamsContract, values: JSON(request.body.read))
+        lat, lon = ad_params['coordinates']
+        result = Ads::UpdateService.call(ad_params['id'], lat: lat, lon: lon)
+
+        if result.success?
+          serializer = AdSerializer.new(result.ad)
+
+          status 200
+          json serializer.serializable_hash
+        else
+          status 422
+          error_response result.ad
+        end
+      end
+    end
   end
 end

@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 module Validations
   class InvalidParams < StandardError; end
 
-  def validate_with!(validation)
-    result = validate_with(validation)
+  def validate_with!(validation, values: params)
+    result = validate_with(validation, values)
     raise InvalidParams if result.failure?
+
     result
   end
 
-  def validate_with(validation)
+  def validate_with(validation, values)
     contract = validation.new
-    contract.call(params)
+    contract.call(values)
   end
 end
