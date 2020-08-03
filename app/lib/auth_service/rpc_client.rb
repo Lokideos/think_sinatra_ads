@@ -20,8 +20,8 @@ module AuthService
       @reply_queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
         if properties[:correlation_id] == @correlation_id
           @user_id = JSON(payload)['user_id']
+          @delivery_tag = delivery_info.delivery_tag
           @lock.synchronize { @condition.signal }
-          @reply_queue.channel.ack(delivery_info.delivery_tag)
         end
       end
 
@@ -54,6 +54,7 @@ module AuthService
         )
 
         @condition.wait(@lock)
+        @reply_queue.channel.ack(@delivery_tag)
 
         @user_id
       end
