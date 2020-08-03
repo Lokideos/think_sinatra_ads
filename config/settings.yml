@@ -1,3 +1,5 @@
+app:
+  name: ads
 db:
   adapter: postgresql
   host: localhost
@@ -7,3 +9,6 @@ rabbitmq:
   consumer_pool: 10
 pagination:
   page_size: 10
+logger:
+  path: log/app.log
+  level: info
