@@ -8,7 +8,7 @@ module GeocodeService
         request.body = ad
       end
 
-      response.body.dig('coordinates', 'coordinates') if response.success?
+      response.body['coordinates'] if response.success?
     end
   end
 end
