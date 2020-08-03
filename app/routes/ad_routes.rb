@@ -22,8 +22,8 @@ class AdRoutes < Application
       )
 
       if result.success?
-        # Ads::GeocodingService.call(result.ad.values)
-        Ads::GeocodingService.call(result.ad)
+        coordinates = Ads::GeocodingService.call(result.ad).coordinates
+        Ads::UpdateService.call(result.ad, coordinates)
         result.ad.reload
         serializer = AdSerializer.new(result.ad)
 

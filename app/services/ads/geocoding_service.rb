@@ -6,12 +6,16 @@ module Ads
 
     param :ad
 
-    attr_reader :ad
+    attr_reader :coordinates
 
     def call
-      coordinates = GeocodeService::Client.new.geocode(ad: @ad.values) || [nil, nil]
+      geocoder_response = GeocodeService::Client.new.geocode(ad: @ad.values)
 
-      @ad.update(lat: coordinates[0], lon: coordinates[1])
+      @coordinates = if geocoder_response.present?
+                       { lat: geocoder_response[0], lon: geocoder_response[1] }
+                     else
+                       { lat: nil, lon: nil }
+                     end
     end
   end
 end
