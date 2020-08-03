@@ -4,13 +4,13 @@ module Ads
   class GeocodingService
     prepend BasicService
 
-    param :initial_ad
+    param :ad
 
     attr_reader :ad
 
     def call
-      coordinates = GeocodeService::Client.new.geocode(ad: @initial_ad) || [nil, nil]
-      @ad = Ad.find(id: @initial_ad[:id])
+      coordinates = GeocodeService::Client.new.geocode(ad: @ad.values) || [nil, nil]
+
       @ad.update(lat: coordinates[0], lon: coordinates[1])
     end
   end
