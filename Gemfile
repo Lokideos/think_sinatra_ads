@@ -32,6 +32,10 @@ group :development do
   gem 'pry-byebug'
 end
 
+group :development, :test do
+  gem 'amazing_print'
+end
+
 group :test do
   gem 'rspec', '~> 3.9.0'
   gem 'factory_bot', '~> 5.2.0'
