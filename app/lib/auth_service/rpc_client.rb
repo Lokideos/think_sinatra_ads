@@ -48,9 +48,14 @@ module AuthService
       @lock.synchronize do
         @queue.publish(
           payload,
-          opts.merge(app_id: 'ads',
-                     correlation_id: @correlation_id,
-                     reply_to: @reply_queue.name)
+          opts.merge(
+            app_id: 'ads',
+            correlation_id: @correlation_id,
+            reply_to: @reply_queue.name,
+            headers: {
+              request_id: Thread.current[:request_id]
+            }
+          )
         )
 
         @condition.wait(@lock)

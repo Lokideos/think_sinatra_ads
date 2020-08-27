@@ -1,3 +1,3 @@
-port ENV.fetch('PORT', 3000)
+# frozen_string_literal: true
 
-log_requests true
+port ENV.fetch('PORT', 3000)
