@@ -4,8 +4,12 @@ db:
   adapter: postgresql
   host: localhost
   user: postgres
+  url: <%= ENV['ADS_DATABASE_URL'] %>
   password: notsecure
 rabbitmq:
+  host: <%= ENV['RABBITMQ_HOST'] %>
+  username: <%= ENV['RABBITMQ_USER'] %>
+  password: <%= ENV['RABBITMQ_PASSWORD'] %>
   consumer_pool: 10
 pagination:
   page_size: 10
