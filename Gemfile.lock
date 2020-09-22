@@ -92,7 +92,7 @@ GEM
       pry (~> 0.13.0)
     puma (4.3.5)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-ougai (0.2.1)
       ougai (~> 1.5)
       rack (~> 2.0)
